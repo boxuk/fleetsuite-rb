@@ -1,5 +1,5 @@
 module Fleetsuite
-  class Projects
+  class Project
 
   end
 end

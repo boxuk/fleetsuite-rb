@@ -12,8 +12,8 @@ module Fleetsuite
 
     def initialize(subdomain, token)
       @subdomain = subdomain
-      @token   = token
-      @endpoint = "https://#{@subdomain}.fleetsuite.com/api/v1"
+      @token     = token
+      @endpoint  = "https://#{@subdomain}.fleetsuite.com/api/v1"
     end
 
     def parse_response(response)
@@ -49,16 +49,27 @@ module Fleetsuite
       request_with_auth(resource)
     end
 
+    def cached_projects(params={})
+      @cached_projects ||= projects(params)
+    end
+
     # Fetch a single project by ID
     #
     def project(project_id, params={})
       resource = endpoint_for(:projects, { id: project_id })
       response = request_with_auth(resource)
       if response.include?(:error)
-        response
+        { error: "Bad request #{response.code}" }
       else
-        response["project"].first
+        response["project"]
       end
+    end
+
+    def project_by(attr, value, params={})
+      projects ||= cached_projects
+      projects.inject([]) { |r, project|
+        r.push(project) if project["name"].downcase.strip == project_name.downcase.strip
+      }
     end
   end
 end

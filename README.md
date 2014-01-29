@@ -6,9 +6,11 @@ A Ruby client for Fleetsuite.com
 
 ```ruby
 client = Fleetsuite::Client.new("boxuk", "API_TOKEN")
-
 # Get all projects
 client.projects()
+
+# Get a single project
+client.project(1)
 ```
 
 ## Running tests
