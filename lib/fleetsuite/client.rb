@@ -51,8 +51,8 @@ module Fleetsuite
 
     # Fetch a single project by ID
     #
-    def project(id, params={})
-      resource = endpoint_for(:projects, { id: id })
+    def project(project_id, params={})
+      resource = endpoint_for(:projects, { id: project_id })
       response = request_with_auth(resource)
       if response.include?(:error)
         response
